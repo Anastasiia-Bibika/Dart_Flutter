@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "320993792729",
+    "project_id": "fir-events-5932a",
+    "storage_bucket": "fir-events-5932a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320993792729:android:5f90c1d47aa6068c6264c8",
+        "android_client_info": {
+          "package_name": "nasya.project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSIniyz3MAd2twYSi3CI_n_0k14ktLzNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

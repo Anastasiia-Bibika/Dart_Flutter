@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class AddEventScreen extends StatefulWidget {
@@ -58,7 +58,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
           height: 16,
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            if (_selectedDate != null) {
+              FirebaseFirestore.instance.collection('events').add({
+                'title': titleController.text,
+                'date': _selectedDate,
+              });
+              Navigator.pop(context);
+            } else {}
+          },
           child: Text("Add "),
         )
       ]),

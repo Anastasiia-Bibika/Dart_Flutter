@@ -9,7 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  cloud_firestore: ^4.4.5
 
+get:
+intl:
+google_fonts:
 dev_dependencies:
   flutter_test:
     sdk: flutter

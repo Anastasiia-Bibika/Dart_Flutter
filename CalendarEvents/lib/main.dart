@@ -1,8 +1,14 @@
 import 'package:calendarevents/screens/event_screen.dart';
 import 'package:flutter/material.dart';
-import 'screens/event_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'models/theme.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -10,15 +16,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Application name
       title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
-      theme: ThemeData(
-        // useMaterial3: true,
-        primarySwatch: Colors.blue,
-      ),
-      // A widget which will be started on application startup
+      debugShowCheckedModeBanner: false,
+      theme: Themes.dark,
+      darkTheme: Themes.dark,
+      themeMode: ThemeMode.dark,
       home: EventScreen(),
     );
   }
