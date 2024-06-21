@@ -4,6 +4,7 @@ import 'package:calendarevents/screens/edit_event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:calendarevents/services/theme_services.dart';
 
 class EventScreen extends StatefulWidget {
   const EventScreen({super.key});
@@ -26,27 +27,22 @@ class _EventScreenState extends State<EventScreen> {
                 : "All Events"),
             if (_selectedDate != null)
               IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  setState(() {
-                    _selectedDate = null;
-                  });
-                },
-              )
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    setState(() {
+                      _selectedDate = null;
+                    });
+                  }),
           ],
         ),
         actions: [
-          Icon(
-            Icons.person,
-            size: 20,
-          ),
           IconButton(
               onPressed: () async {
                 DateTime? newDate = await showDatePicker(
                   context: context,
                   initialDate: _selectedDate ?? DateTime.now(),
-                  firstDate: DateTime(2023),
-                  lastDate: DateTime(2035),
+                  firstDate: DateTime(2020),
+                  lastDate: DateTime(2030),
                 );
                 if (newDate != null) {
                   setState(() {
@@ -54,16 +50,22 @@ class _EventScreenState extends State<EventScreen> {
                   });
                 }
               },
-              icon: Icon(Icons.calendar_today))
+              icon: Icon(Icons.calendar_today)),
+          IconButton(
+            onPressed: () {
+              onchangeThem();
+            },
+            icon: Icon(Icons.nightlight_round),
+          ),
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _selectedDate == null
             ? FirebaseFirestore.instance.collection('events').snapshots()
             : FirebaseFirestore.instance
-                .collection('events')
-                .where('date', isEqualTo: _selectedDate)
-                .snapshots(),
+            .collection('events')
+            .where('date', isEqualTo: _selectedDate)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -76,21 +78,33 @@ class _EventScreenState extends State<EventScreen> {
             );
           }
           List<Event> events =
-              snapshot.data!.docs.map((e) => Event.fromJson(e)).toList();
+          snapshot.data!.docs.map((e) => Event.fromJson(e)).toList();
 
           return ListView.builder(
             itemCount: events.length,
             itemBuilder: (context, index) {
               Event event = events[index];
-              return ListTile(
-                title: Text(event.title),
-                subtitle: Text(event.date.toIso8601String().substring(0, 10)),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditEventScreen(event: event)));
+              return Dismissible(
+                key: Key(event.title),
+                onDismissed: (direction) {
+                  setState(() {
+                    FirebaseFirestore.instance
+                        .collection('events')
+                        .doc(event.id)
+                        .delete();
+                  });
                 },
+                child: ListTile(
+                  title: Text(event.title),
+                  subtitle: Text(event.date.toIso8601String().substring(0, 10)),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EditEventScreen(event: event)));
+                  },
+                ),
               );
             },
           );
@@ -101,7 +115,7 @@ class _EventScreenState extends State<EventScreen> {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const AddEventScreen()));
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

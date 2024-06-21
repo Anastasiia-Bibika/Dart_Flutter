@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:320993792729:android:13247b97d2f1b7886264c8",
+        "android_client_info": {
+          "package_name": "com.example.calendarevents"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSIniyz3MAd2twYSi3CI_n_0k14ktLzNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:320993792729:android:5f90c1d47aa6068c6264c8",
         "android_client_info": {
           "package_name": "nasya.project"
